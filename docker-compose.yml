@@ -1,0 +1,15 @@
+services:
+  agenda:
+    build: .
+    container_name: declige
+    ports:
+      - "8000:8000"
+    environment:
+      AGENDA_HOST: "0.0.0.0"
+      AGENDA_PORT: "8000"
+      AGENDA_DB: "/app/data/agenda.db"
+      AGENDA_BACKUP_DIR: "/app/data/backups"
+      TZ: "Europe/Madrid"
+    volumes:
+      - ./data:/app/data
+    restart: unless-stopped

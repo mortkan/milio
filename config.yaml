@@ -1,0 +1,84 @@
+# ---------------------------------------------------------------------------
+# Agenda - configuración base
+#
+# Este archivo define los valores por defecto. Los cambios hechos desde la
+# pantalla de Ajustes se guardan en data/settings.json y se aplican en caliente,
+# excepto host, puerto y rutas de base de datos (requieren reiniciar).
+# También se pueden sobrescribir estas variables de entorno:
+#   AGENDA_HOST, AGENDA_PORT, AGENDA_DB, AGENDA_BACKUP_DIR
+# ---------------------------------------------------------------------------
+
+app_name: "Agenda"
+language: "es"
+first_day_of_week: 1          # 0 = domingo, 1 = lunes, ..., 6 = sábado
+date_format: "DD/MM/YYYY"     # DD/MM/YYYY | MM/DD/YYYY | YYYY-MM-DD | DD.MM.YYYY
+time_format: "24h"            # 24h | 12h
+timezone: "Europe/Madrid"     # cualquier zona IANA; p. ej. America/Bogota
+
+theme: "dark"                 # auto | light | dark
+accent_color: "#7c3aed"
+font_family: "system"         # system | sans | serif | mono
+font_size: 16                 # 12 - 22 (px base)
+density: "comfortable"        # comfortable | compact
+
+default_view: "month"         # month | week | day
+show_week_numbers: false
+show_holidays: true
+show_completed: false
+show_month_previews: true
+show_quick_notes: true
+
+holidays:
+  - date: "01-01"             # MM-DD (anual) o YYYY-MM-DD (fecha concreta)
+    name: "Año Nuevo"
+  - date: "12-25"
+    name: "Navidad"
+
+categories:
+  - id: "personal"
+    label: "Personal"
+    color: "#0ea5e9"
+  - id: "work"
+    label: "Trabajo"
+    color: "#8b5cf6"
+  - id: "health"
+    label: "Salud"
+    color: "#10b981"
+  - id: "study"
+    label: "Estudios"
+    color: "#f59e0b"
+
+priorities:
+  - id: "low"
+    label: "Baja"
+    color: "#94a3b8"
+  - id: "medium"
+    label: "Media"
+    color: "#f59e0b"
+  - id: "high"
+    label: "Alta"
+    color: "#ef4444"
+
+note_fields:
+  time: true
+  priority: true
+  category: true
+  color: true
+
+shortcuts:
+  new_note: "a"
+  quick_note: "n"
+  today: "t"
+  search: "/"
+  settings: ","
+
+server:
+  host: "127.0.0.1"
+  port: 8000
+  database_path: "data/agenda.db"
+  backup_dir: "data/backups"
+
+backups:
+  enabled: true
+  frequency_hours: 24         # 1 - 720
+  keep: 10                    # número de copias a conservar

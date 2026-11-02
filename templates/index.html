@@ -1,0 +1,1280 @@
+<!doctype html>
+<html lang="es" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="dark" />
+    <meta
+      name="description"
+      content="Agenda personal con calendario mensual, notas por día y captura rápida."
+    />
+    <title>Agenda</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg" />
+    <link rel="stylesheet" href="/static/css/styles.css" />
+  </head>
+  <body>
+    <svg xmlns="http://www.w3.org/2000/svg" class="svg-sprite" aria-hidden="true">
+      <symbol id="icon-calendar" viewBox="0 0 24 24">
+        <rect x="3" y="4.5" width="18" height="16.5" rx="3" />
+        <path d="M8 2.5v4M16 2.5v4M3 9.5h18" />
+      </symbol>
+      <symbol id="icon-chevron-left" viewBox="0 0 24 24">
+        <path d="m15 18-6-6 6-6" />
+      </symbol>
+      <symbol id="icon-chevron-right" viewBox="0 0 24 24">
+        <path d="m9 18 6-6-6-6" />
+      </symbol>
+      <symbol id="icon-plus" viewBox="0 0 24 24">
+        <path d="M12 5v14M5 12h14" />
+      </symbol>
+      <symbol id="icon-search" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="7" />
+        <path d="m20 20-3.5-3.5" />
+      </symbol>
+      <symbol id="icon-settings" viewBox="0 0 24 24">
+        <path
+          d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z"
+        />
+        <path
+          d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09a1.7 1.7 0 0 0-1.1-1.55 1.7 1.7 0 0 0-1.88.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09a1.7 1.7 0 0 0 1.55-1.1 1.7 1.7 0 0 0-.34-1.88l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.88-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9v.09a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1Z"
+        />
+      </symbol>
+      <symbol id="icon-x" viewBox="0 0 24 24">
+        <path d="M18 6 6 18M6 6l12 12" />
+      </symbol>
+      <symbol id="icon-bolt" viewBox="0 0 24 24">
+        <path d="M13 2 4.5 13.5H11l-1 8.5L19.5 10H13l1-8Z" />
+      </symbol>
+      <symbol id="icon-check" viewBox="0 0 24 24">
+        <path d="m5 12.5 4.5 4.5L19 6.5" />
+      </symbol>
+      <symbol id="icon-edit" viewBox="0 0 24 24">
+        <path d="M12 20h9" />
+        <path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L8 18l-4 1 1-4Z" />
+      </symbol>
+      <symbol id="icon-trash" viewBox="0 0 24 24">
+        <path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" />
+      </symbol>
+      <symbol id="icon-repeat" viewBox="0 0 24 24">
+        <path d="m17 2 4 4-4 4" />
+        <path d="M3 11V9a3 3 0 0 1 3-3h15" />
+        <path d="m7 22-4-4 4-4" />
+        <path d="M21 13v2a3 3 0 0 1-3 3H3" />
+      </symbol>
+      <symbol id="icon-clock" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 7v5l3 2" />
+      </symbol>
+      <symbol id="icon-alert" viewBox="0 0 24 24">
+        <path d="M10.3 3.6 2 18a2 2 0 0 0 1.7 3h16.6a2 2 0 0 0 1.7-3L13.7 3.6a2 2 0 0 0-3.4 0Z" />
+        <path d="M12 9v4M12 17h.01" />
+      </symbol>
+      <symbol id="icon-download" viewBox="0 0 24 24">
+        <path d="M12 3v12M7 10l5 5 5-5" />
+        <path d="M5 21h14" />
+      </symbol>
+      <symbol id="icon-database" viewBox="0 0 24 24">
+        <ellipse cx="12" cy="5" rx="8" ry="3" />
+        <path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5" />
+        <path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3" />
+      </symbol>
+    </svg>
+
+    <a class="skip-link" href="#calendar-main" data-i18n="aria.skip"
+      >Saltar al calendario</a
+    >
+
+    <div id="app" class="app">
+      <header class="app-header">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <svg class="icon"><use href="#icon-calendar"></use></svg>
+          </div>
+          <div class="brand-copy">
+            <h1 id="app-title">Agenda</h1>
+            <p id="app-subtitle" class="brand-context">
+              Calendario · Vista mensual
+            </p>
+          </div>
+        </div>
+
+        <div class="header-main">
+          <div
+            class="view-switch"
+            role="group"
+            data-i18n-aria-label="aria.view_switch"
+          >
+            <button
+              type="button"
+              class="view-btn"
+              data-view="month"
+              data-i18n="views.month"
+              aria-pressed="false"
+            >
+              Mes
+            </button>
+            <button
+              type="button"
+              class="view-btn"
+              data-view="week"
+              data-i18n="views.week"
+              aria-pressed="false"
+            >
+              Semana
+            </button>
+            <button
+              type="button"
+              class="view-btn"
+              data-view="day"
+              data-i18n="views.day"
+              aria-pressed="false"
+            >
+              Día
+            </button>
+            <button
+              type="button"
+              class="view-btn"
+              data-view="board"
+              data-i18n="views.board"
+              aria-pressed="false"
+            >
+              Tablero
+            </button>
+          </div>
+
+          <div class="period-nav">
+            <button
+              type="button"
+              id="prev-btn"
+              class="icon-btn"
+              data-i18n-aria-label="nav.previous"
+            >
+              <svg class="icon"><use href="#icon-chevron-left"></use></svg>
+            </button>
+            <h2 id="period-label" class="period-label"></h2>
+            <button
+              type="button"
+              id="next-btn"
+              class="icon-btn"
+              data-i18n-aria-label="nav.next"
+            >
+              <svg class="icon"><use href="#icon-chevron-right"></use></svg>
+            </button>
+          </div>
+
+          <button
+            type="button"
+            id="today-btn"
+            class="btn btn-ghost btn-small today-btn"
+            data-i18n="nav.today"
+            data-i18n-aria-label="aria.today"
+          >
+            Hoy
+          </button>
+        </div>
+
+        <div class="header-actions">
+          <button
+            type="button"
+            id="new-note-btn"
+            class="btn btn-primary btn-create"
+            data-i18n-aria-label="aria.new_note"
+          >
+            <svg class="icon"><use href="#icon-plus"></use></svg>
+            <span class="btn-label" data-i18n="note.new">Nueva nota</span>
+          </button>
+          <span class="toolbar-sep" aria-hidden="true"></span>
+          <button
+            type="button"
+            id="quick-tray-btn"
+            class="icon-btn"
+            data-i18n-aria-label="aria.quick_tray"
+          >
+            <svg class="icon"><use href="#icon-bolt"></use></svg>
+          </button>
+          <button
+            type="button"
+            id="search-btn"
+            class="icon-btn"
+            data-i18n-aria-label="aria.search"
+          >
+            <svg class="icon"><use href="#icon-search"></use></svg>
+          </button>
+          <button
+            type="button"
+            id="settings-btn"
+            class="icon-btn"
+            data-i18n-aria-label="aria.settings"
+          >
+            <svg class="icon"><use href="#icon-settings"></use></svg>
+          </button>
+        </div>
+      </header>
+
+    <!-- Command Palette -->
+    <div id="command-palette" class="is-hidden" role="dialog" aria-modal="true">
+      <div class="palette-container">
+        <h3 id="palette-title" i18n>Paleta de comandos</h3>
+        <kbd class="palette-shortcut">Ctrl</kbd><kbd i18n>Ctrl+K</kbd>
+        <button class="palette-close" aria-label="Cerrar paleta" onclick="openPalette()">&times;</button>
+        <div class="palette-list" i18n>...</div>
+      </div>
+    </div>
+
+      <div
+        id="reminder-banner"
+        class="reminder-banner"
+        role="status"
+        hidden
+      >
+        <span class="reminder-icon" aria-hidden="true">
+          <svg class="icon"><use href="#icon-alert"></use></svg>
+        </span>
+        <div class="reminder-text">
+          <strong id="reminder-title"></strong>
+          <span id="reminder-detail"></span>
+        </div>
+        <button
+          type="button"
+          id="reminder-view"
+          class="btn btn-small btn-secondary"
+          data-i18n="reminders.view_today"
+        >
+          Ver hoy
+        </button>
+        <button
+          type="button"
+          id="reminder-dismiss"
+          class="icon-btn"
+          data-i18n-aria-label="reminders.dismiss"
+        >
+          <svg class="icon"><use href="#icon-x"></use></svg>
+        </button>
+      </div>
+
+      <div class="workspace app-body">
+        <main
+          id="calendar-main"
+          class="calendar-main"
+          tabindex="-1"
+          data-i18n-aria-label="aria.calendar"
+        >
+          <div id="calendar" class="calendar"></div>
+        </main>
+
+        <aside
+          id="day-panel"
+          class="day-panel"
+          data-i18n-aria-label="aria.day_panel"
+        >
+          <div class="panel-head">
+            <div class="panel-heading">
+              <p id="panel-weekday" class="eyebrow"></p>
+              <h2 id="panel-date"></h2>
+            </div>
+            <div class="panel-head-actions">
+              <button
+                type="button"
+                id="panel-add"
+                class="btn btn-secondary btn-small panel-add"
+              >
+                <svg class="icon"><use href="#icon-plus"></use></svg>
+                <span data-i18n="common.add">Añadir</span>
+              </button>
+              <button
+                type="button"
+                id="panel-close"
+                class="icon-btn panel-close"
+                data-i18n-aria-label="aria.close_panel"
+              >
+                <svg class="icon"><use href="#icon-x"></use></svg>
+              </button>
+            </div>
+          </div>
+
+          <div id="panel-summary" class="panel-summary" aria-live="polite"></div>
+          <div id="panel-notes" class="panel-notes"></div>
+
+          <section id="quick-tray" class="quick-tray">
+            <div class="section-head">
+              <h3 data-i18n="quick.tray">Notas rápidas</h3>
+              <span id="quick-count" class="count-pill" hidden></span>
+            </div>
+            <div class="quick-target">
+              <label for="quick-target-date" data-i18n="quick.target"
+                >Día de destino</label
+              >
+              <input type="date" id="quick-target-date" />
+            </div>
+            <div id="quick-notes-list" class="quick-list"></div>
+          </section>
+        </aside>
+
+        <div id="panel-backdrop" class="panel-backdrop" hidden></div>
+      </div>
+
+      <footer class="capture-dock">
+        <form id="quick-bar" class="quick-bar" autocomplete="off">
+          <span class="quick-bar-icon" aria-hidden="true">
+            <svg class="icon"><use href="#icon-bolt"></use></svg>
+          </span>
+          <input
+            type="text"
+            id="quick-input"
+            maxlength="5000"
+            data-i18n-placeholder="quick.placeholder"
+            data-i18n-aria-label="aria.quick_note"
+            placeholder="Captura rápida… (N)"
+          />
+          <label class="quick-date-field" for="quick-date">
+            <span data-i18n="quick.date_optional">Fecha</span>
+            <input
+              type="date"
+              id="quick-date"
+              data-i18n-aria-label="quick.target"
+              data-i18n-title="quick.date_hint"
+            />
+          </label>
+          <kbd id="quick-kbd" class="quick-kbd">N</kbd>
+          <button
+            type="submit"
+            class="btn btn-primary btn-small"
+            data-i18n="quick.save"
+          >
+            Guardar
+          </button>
+        </form>
+      </footer>
+    </div>
+
+    <dialog
+      id="note-dialog"
+      class="dialog note-dialog"
+      aria-labelledby="note-dialog-title"
+    >
+      <form id="note-form" novalidate>
+        <header class="dialog-head">
+          <h2 id="note-dialog-title" data-i18n="note.new">Nueva nota</h2>
+          <button
+            type="button"
+            class="icon-btn"
+            data-close-dialog
+            data-i18n-aria-label="aria.close_dialog"
+          >
+            <svg class="icon"><use href="#icon-x"></use></svg>
+          </button>
+        </header>
+
+    <!-- Command Palette -->
+    <div id="command-palette" class="is-hidden" role="dialog" aria-modal="true">
+      <div class="palette-container">
+        <h3 id="palette-title" i18n>Paleta de comandos</h3>
+        <kbd class="palette-shortcut">Ctrl</kbd><kbd i18n>Ctrl+K</kbd>
+        <button class="palette-close" aria-label="Cerrar paleta" onclick="openPalette()">&times;</button>
+        <div class="palette-list" i18n>...</div>
+      </div>
+    </div>
+
+        <div class="dialog-body">
+          <input type="hidden" id="note-id" />
+
+          <div class="field">
+            <label for="note-title" data-i18n="common.title">Título</label>
+            <input
+              type="text"
+              id="note-title"
+              maxlength="200"
+              data-i18n-placeholder="note.title_placeholder"
+              placeholder="Título de la nota"
+            />
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="note-date" data-i18n="common.date">Fecha</label>
+              <input type="date" id="note-date" required />
+            </div>
+
+            <div class="field" data-field="time">
+              <label for="note-time" data-i18n="common.time">Hora</label>
+              <input type="time" id="note-time" />
+            </div>
+
+            <div class="field" data-field="category">
+              <label for="note-category" data-i18n="common.category"
+                >Categoría</label
+              >
+              <select id="note-category"></select>
+            </div>
+
+            <div class="field" data-field="priority">
+              <label for="note-priority" data-i18n="common.priority"
+                >Prioridad</label
+              >
+              <select id="note-priority"></select>
+            </div>
+
+            <div class="field" data-field="color">
+              <label for="note-color" data-i18n="common.color">Color</label>
+              <div class="color-field">
+                <input type="color" id="note-color" value="#4f46e5" />
+                <label class="check-inline">
+                  <input type="checkbox" id="note-color-none" />
+                  <span data-i18n="note.no_color">Sin color</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="note-recurrence" data-i18n="common.recurrence"
+                >Repetición</label
+              >
+              <select id="note-recurrence">
+                <option value="none" data-i18n="recurrence.none">
+                  Sin repetición
+                </option>
+                <option value="daily" data-i18n="recurrence.daily">
+                  Diaria
+                </option>
+                <option value="weekly" data-i18n="recurrence.weekly">
+                  Semanal
+                </option>
+                <option value="monthly" data-i18n="recurrence.monthly">
+                  Mensual
+                </option>
+                <option value="yearly" data-i18n="recurrence.yearly">
+                  Anual
+                </option>
+              </select>
+            </div>
+
+            <div class="field" id="recurrence-end-field" hidden>
+              <label for="note-recurrence-end" data-i18n="note.recurrence_end"
+                >Repetir hasta</label
+              >
+              <input type="date" id="note-recurrence-end" />
+            </div>
+
+            <div class="field" id="completed-field" hidden>
+              <label class="check-inline">
+                <input type="checkbox" id="note-completed" />
+                <span data-i18n="common.completed">Completada</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="note-content" data-i18n="common.content"
+              >Contenido</label
+            >
+            <textarea
+              id="note-content"
+              rows="8"
+              maxlength="50000"
+              data-i18n-placeholder="note.content_placeholder"
+              placeholder="Escribe aquí… Puedes usar **Markdown**."
+            ></textarea>
+            <p class="hint" data-i18n="note.markdown_hint"></p>
+          </div>
+
+          <div class="field">
+            <div class="preview-head">
+              <span data-i18n="note.preview">Vista previa</span>
+              <span id="note-series-hint" class="hint" hidden
+                >Los cambios se aplican a toda la serie.</span
+              >
+            </div>
+            <div id="note-preview" class="markdown-preview" aria-live="polite">
+              <p class="empty-hint" data-i18n="note.preview_empty">
+                La vista previa aparecerá aquí.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <footer class="dialog-foot">
+          <button
+            type="button"
+            id="note-delete"
+            class="btn btn-danger-ghost"
+            data-i18n="common.delete"
+            hidden
+          >
+            Eliminar
+          </button>
+          <span class="spacer"></span>
+          <button
+            type="button"
+            class="btn btn-ghost"
+            data-close-dialog
+            data-i18n="common.cancel"
+          >
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary" data-i18n="common.save">
+            Guardar
+          </button>
+        </footer>
+      </form>
+    </dialog>
+
+    <dialog
+      id="search-dialog"
+      class="dialog search-dialog"
+      aria-labelledby="search-title"
+    >
+      <form id="search-form" novalidate>
+        <header class="dialog-head">
+          <h2 id="search-title" data-i18n="search.title">Buscar y filtrar</h2>
+          <button
+            type="button"
+            class="icon-btn"
+            data-close-dialog
+            data-i18n-aria-label="aria.close_dialog"
+          >
+            <svg class="icon"><use href="#icon-x"></use></svg>
+          </button>
+        </header>
+
+    <!-- Command Palette -->
+    <div id="command-palette" class="is-hidden" role="dialog" aria-modal="true">
+      <div class="palette-container">
+        <h3 id="palette-title" i18n>Paleta de comandos</h3>
+        <kbd class="palette-shortcut">Ctrl</kbd><kbd i18n>Ctrl+K</kbd>
+        <button class="palette-close" aria-label="Cerrar paleta" onclick="openPalette()">&times;</button>
+        <div class="palette-list" i18n>...</div>
+      </div>
+    </div>
+
+        <div class="dialog-body">
+          <p class="hint" data-i18n="search.hint"></p>
+
+          <div class="field">
+            <label for="search-text" data-i18n="search.text">Texto</label>
+            <input
+              type="search"
+              id="search-text"
+              maxlength="200"
+              data-i18n-placeholder="search.placeholder"
+              placeholder="Buscar en títulos y contenido…"
+            />
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label for="search-category" data-i18n="search.category"
+                >Categoría</label
+              >
+              <select id="search-category"></select>
+            </div>
+            <div class="field">
+              <label for="search-priority" data-i18n="search.priority"
+                >Prioridad</label
+              >
+              <select id="search-priority"></select>
+            </div>
+            <div class="field">
+              <label for="search-status" data-i18n="search.status"
+                >Estado</label
+              >
+              <select id="search-status">
+                <option value="" data-i18n="search.all">Todas</option>
+                <option value="false" data-i18n="search.pending">
+                  Pendientes
+                </option>
+                <option value="true" data-i18n="search.completed">
+                  Completadas
+                </option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="search-from" data-i18n="search.date_from"
+                >Fecha desde</label
+              >
+              <input type="date" id="search-from" />
+            </div>
+            <div class="field">
+              <label for="search-to" data-i18n="search.date_to"
+                >Fecha hasta</label
+              >
+              <input type="date" id="search-to" />
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button
+              type="button"
+              id="search-clear"
+              class="btn btn-ghost btn-small"
+              data-i18n="search.clear"
+            >
+              Limpiar filtros
+            </button>
+            <button type="submit" class="btn btn-primary btn-small">
+              <svg class="icon"><use href="#icon-search"></use></svg>
+              <span data-i18n="search.apply">Buscar</span>
+            </button>
+          </div>
+
+          <div id="search-summary" class="search-summary" aria-live="polite"></div>
+          <div id="search-results" class="search-results"></div>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog
+      id="settings-dialog"
+      class="dialog settings-dialog"
+      aria-labelledby="settings-title"
+    >
+      <form id="settings-form" novalidate>
+        <header class="dialog-head">
+          <h2 id="settings-title" data-i18n="settings.title">Ajustes</h2>
+          <button
+            type="button"
+            class="icon-btn"
+            data-close-dialog
+            data-i18n-aria-label="aria.close_dialog"
+          >
+            <svg class="icon"><use href="#icon-x"></use></svg>
+          </button>
+        </header>
+
+    <!-- Command Palette -->
+    <div id="command-palette" class="is-hidden" role="dialog" aria-modal="true">
+      <div class="palette-container">
+        <h3 id="palette-title" i18n>Paleta de comandos</h3>
+        <kbd class="palette-shortcut">Ctrl</kbd><kbd i18n>Ctrl+K</kbd>
+        <button class="palette-close" aria-label="Cerrar paleta" onclick="openPalette()">&times;</button>
+        <div class="palette-list" i18n>...</div>
+      </div>
+    </div>
+
+        <div class="settings-layout">
+          <nav
+            id="settings-tabs"
+            class="settings-tabs"
+            role="tablist"
+            data-i18n-aria-label="aria.settings_tabs"
+          >
+            <button
+              type="button"
+              class="tab-btn"
+              role="tab"
+              data-settings-tab="general"
+              data-i18n="settings.tabs.general"
+            >
+              General
+            </button>
+            <button
+              type="button"
+              class="tab-btn"
+              role="tab"
+              data-settings-tab="appearance"
+              data-i18n="settings.tabs.appearance"
+            >
+              Apariencia
+            </button>
+            <button
+              type="button"
+              class="tab-btn"
+              role="tab"
+              data-settings-tab="calendar"
+              data-i18n="settings.tabs.calendar"
+            >
+              Calendario
+            </button>
+            <button
+              type="button"
+              class="tab-btn"
+              role="tab"
+              data-settings-tab="notes"
+              data-i18n="settings.tabs.notes"
+            >
+              Notas
+            </button>
+            <button
+              type="button"
+              class="tab-btn"
+              role="tab"
+              data-settings-tab="labels"
+              data-i18n="settings.tabs.labels"
+            >
+              Etiquetas
+            </button>
+            <button
+              type="button"
+              class="tab-btn"
+              role="tab"
+              data-settings-tab="shortcuts"
+              data-i18n="settings.tabs.shortcuts"
+            >
+              Atajos
+            </button>
+            <button
+              type="button"
+              class="tab-btn"
+              role="tab"
+              data-settings-tab="data"
+              data-i18n="settings.tabs.data"
+            >
+              Datos
+            </button>
+            <button
+              type="button"
+              class="tab-btn"
+              role="tab"
+              data-settings-tab="server"
+              data-i18n="settings.tabs.server"
+            >
+              Servidor
+            </button>
+          </nav>
+
+          <div class="settings-content">
+            <section class="settings-section" data-settings-panel="general">
+              <h3 data-i18n="settings.tabs.general">General</h3>
+
+              <div class="field">
+                <label for="settings-app-name" data-i18n="settings.general.app_name"
+                  >Nombre de la aplicación</label
+                >
+                <input
+                  type="text"
+                  id="settings-app-name"
+                  maxlength="60"
+                />
+              </div>
+
+              <div class="form-grid">
+                <div class="field">
+                  <label for="settings-language" data-i18n="settings.general.language"
+                    >Idioma</label
+                  >
+                  <select id="settings-language"></select>
+                </div>
+                <div class="field">
+                  <label for="settings-timezone" data-i18n="settings.general.timezone"
+                    >Zona horaria</label
+                  >
+                  <input type="text" id="settings-timezone" list="timezone-options" />
+                  <datalist id="timezone-options"></datalist>
+                </div>
+                <div class="field">
+                  <label for="settings-first-day" data-i18n="settings.general.first_day"
+                    >Primer día de la semana</label
+                  >
+                  <select id="settings-first-day"></select>
+                </div>
+                <div class="field">
+                  <label for="settings-date-format" data-i18n="settings.general.date_format"
+                    >Formato de fecha</label
+                  >
+                  <select id="settings-date-format">
+                    <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                    <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                    <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                    <option value="DD.MM.YYYY">DD.MM.YYYY</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="settings-time-format" data-i18n="settings.general.time_format"
+                    >Formato de hora</label
+                  >
+                  <select id="settings-time-format">
+                    <option value="24h">24 h (14:30)</option>
+                    <option value="12h">12 h (2:30 PM)</option>
+                  </select>
+                </div>
+              </div>
+
+              <p class="hint" data-i18n="settings.general.help"></p>
+            </section>
+
+            <section
+              class="settings-section"
+              data-settings-panel="appearance"
+              hidden
+            >
+              <h3 data-i18n="settings.tabs.appearance">Apariencia</h3>
+
+              <div class="form-grid">
+                <div class="field">
+                  <label for="settings-theme" data-i18n="settings.appearance.theme"
+                    >Tema</label
+                  >
+                  <select id="settings-theme">
+                    <option value="auto" data-i18n="settings.appearance.auto">
+                      Automático
+                    </option>
+                    <option value="light" data-i18n="settings.appearance.light">
+                      Claro
+                    </option>
+                    <option value="dark" data-i18n="settings.appearance.dark">
+                      Oscuro
+                    </option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label for="settings-accent" data-i18n="settings.appearance.accent"
+                    >Color de acento</label
+                  >
+                  <input type="color" id="settings-accent" />
+                </div>
+                <div class="field">
+                  <label
+                    for="settings-font-family"
+                    data-i18n="settings.appearance.font_family"
+                    >Tipografía</label
+                  >
+                  <select id="settings-font-family">
+                    <option value="system" data-i18n="settings.appearance.font_system">
+                      Sistema
+                    </option>
+                    <option value="sans" data-i18n="settings.appearance.font_sans">
+                      Sans serif
+                    </option>
+                    <option value="serif" data-i18n="settings.appearance.font_serif">
+                      Serif
+                    </option>
+                    <option value="mono" data-i18n="settings.appearance.font_mono">
+                      Monoespaciada
+                    </option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label
+                    for="settings-font-size"
+                    data-i18n="settings.appearance.font_size"
+                    >Tamaño de letra</label
+                  >
+                  <div class="range-field">
+                    <input
+                      type="range"
+                      id="settings-font-size"
+                      min="12"
+                      max="22"
+                      step="1"
+                      value="16"
+                    />
+                    <output id="settings-font-size-value">16</output>
+                  </div>
+                </div>
+                <div class="field">
+                  <label for="settings-density" data-i18n="settings.appearance.density"
+                    >Densidad</label
+                  >
+                  <select id="settings-density">
+                    <option
+                      value="comfortable"
+                      data-i18n="settings.appearance.comfortable"
+                    >
+                      Cómoda
+                    </option>
+                    <option value="compact" data-i18n="settings.appearance.compact">
+                      Compacta
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </section>
+
+            <section
+              class="settings-section"
+              data-settings-panel="calendar"
+              hidden
+            >
+              <h3 data-i18n="settings.tabs.calendar">Calendario</h3>
+
+              <div class="form-grid">
+                <div class="field">
+                  <label
+                    for="settings-default-view"
+                    data-i18n="settings.calendar.default_view"
+                    >Vista por defecto</label
+                  >
+                  <select id="settings-default-view">
+                    <option value="month" data-i18n="views.month">Mes</option>
+                    <option value="week" data-i18n="views.week">Semana</option>
+                    <option value="day" data-i18n="views.day">Día</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="check-list">
+                <label class="checkbox">
+                  <input type="checkbox" id="settings-show-week-numbers" />
+                  <span data-i18n="settings.calendar.show_week_numbers"
+                    >Mostrar números de semana</span
+                  >
+                </label>
+                <label class="checkbox">
+                  <input type="checkbox" id="settings-show-holidays" />
+                  <span data-i18n="settings.calendar.show_holidays"
+                    >Mostrar festivos</span
+                  >
+                </label>
+                <label class="checkbox">
+                  <input type="checkbox" id="settings-show-completed" />
+                  <span data-i18n="settings.calendar.show_completed"
+                    >Mostrar notas completadas</span
+                  >
+                </label>
+                <label class="checkbox">
+                  <input type="checkbox" id="settings-show-month-previews" />
+                  <span data-i18n="settings.calendar.show_month_previews"
+                    >Mostrar títulos en la vista mensual</span
+                  >
+                </label>
+                <label class="checkbox">
+                  <input type="checkbox" id="settings-show-quick-notes" />
+                  <span data-i18n="settings.calendar.show_quick_notes"
+                    >Mostrar bandeja de notas rápidas</span
+                  >
+                </label>
+              </div>
+
+              <div class="field">
+                <label for="settings-holidays" data-i18n="settings.calendar.holidays"
+                  >Festivos</label
+                >
+                <textarea id="settings-holidays" rows="5"></textarea>
+                <p class="hint" data-i18n="settings.calendar.holidays_help"></p>
+              </div>
+            </section>
+
+            <section class="settings-section" data-settings-panel="notes" hidden>
+              <h3 data-i18n="settings.notes.fields_title">
+                Campos visibles en las notas
+              </h3>
+              <p class="hint" data-i18n="settings.notes.fields_help"></p>
+
+              <div class="check-list">
+                <label class="checkbox">
+                  <input type="checkbox" id="settings-field-time" />
+                  <span data-i18n="settings.notes.time">Hora</span>
+                </label>
+                <label class="checkbox">
+                  <input type="checkbox" id="settings-field-priority" />
+                  <span data-i18n="settings.notes.priority">Prioridad</span>
+                </label>
+                <label class="checkbox">
+                  <input type="checkbox" id="settings-field-category" />
+                  <span data-i18n="settings.notes.category">Categoría</span>
+                </label>
+                <label class="checkbox">
+                  <input type="checkbox" id="settings-field-color" />
+                  <span data-i18n="settings.notes.color">Color</span>
+                </label>
+              </div>
+            </section>
+
+            <section class="settings-section" data-settings-panel="labels" hidden>
+              <h3 data-i18n="settings.labels.categories">Categorías</h3>
+              <div id="settings-categories" class="label-list"></div>
+              <button
+                type="button"
+                id="settings-add-category"
+                class="btn btn-secondary btn-small"
+                data-i18n="settings.labels.add_category"
+              >
+                Añadir categoría
+              </button>
+
+              <h3 class="section-spaced" data-i18n="settings.labels.priorities">
+                Prioridades
+              </h3>
+              <div id="settings-priorities" class="label-list"></div>
+              <button
+                type="button"
+                id="settings-add-priority"
+                class="btn btn-secondary btn-small"
+                data-i18n="settings.labels.add_priority"
+              >
+                Añadir prioridad
+              </button>
+
+              <p class="hint section-spaced" data-i18n="settings.labels.help"></p>
+            </section>
+
+            <section
+              class="settings-section"
+              data-settings-panel="shortcuts"
+              hidden
+            >
+              <h3 data-i18n="settings.shortcuts.title">Atajos de teclado</h3>
+              <p class="hint" data-i18n="settings.shortcuts.help"></p>
+
+              <div class="shortcut-list">
+                <div class="shortcut-row">
+                  <label for="shortcut-new-note" data-i18n="settings.shortcuts.new_note"
+                    >Nueva nota</label
+                  >
+                  <input
+                    type="text"
+                    id="shortcut-new-note"
+                    class="shortcut-input"
+                    data-shortcut="new_note"
+                    readonly
+                    data-i18n-placeholder="settings.shortcuts.capture_hint"
+                  />
+                </div>
+                <div class="shortcut-row">
+                  <label
+                    for="shortcut-quick-note"
+                    data-i18n="settings.shortcuts.quick_note"
+                    >Captura rápida</label
+                  >
+                  <input
+                    type="text"
+                    id="shortcut-quick-note"
+                    class="shortcut-input"
+                    data-shortcut="quick_note"
+                    readonly
+                    data-i18n-placeholder="settings.shortcuts.capture_hint"
+                  />
+                </div>
+                <div class="shortcut-row">
+                  <label for="shortcut-today" data-i18n="settings.shortcuts.today"
+                    >Ir a hoy</label
+                  >
+                  <input
+                    type="text"
+                    id="shortcut-today"
+                    class="shortcut-input"
+                    data-shortcut="today"
+                    readonly
+                    data-i18n-placeholder="settings.shortcuts.capture_hint"
+                  />
+                </div>
+                <div class="shortcut-row">
+                  <label for="shortcut-search" data-i18n="settings.shortcuts.search"
+                    >Buscar</label
+                  >
+                  <input
+                    type="text"
+                    id="shortcut-search"
+                    class="shortcut-input"
+                    data-shortcut="search"
+                    readonly
+                    data-i18n-placeholder="settings.shortcuts.capture_hint"
+                  />
+                </div>
+                <div class="shortcut-row">
+                  <label for="shortcut-settings" data-i18n="settings.shortcuts.settings"
+                    >Abrir ajustes</label
+                  >
+                  <input
+                    type="text"
+                    id="shortcut-settings"
+                    class="shortcut-input"
+                    data-shortcut="settings"
+                    readonly
+                    data-i18n-placeholder="settings.shortcuts.capture_hint"
+                  />
+                </div>
+              </div>
+            </section>
+
+            <section class="settings-section" data-settings-panel="data" hidden>
+              <h3 data-i18n="settings.data.export">Exportar</h3>
+              <p class="hint" data-i18n="settings.data.export_help"></p>
+              <div class="form-actions">
+                <button
+                  type="button"
+                  id="settings-export-json"
+                  class="btn btn-secondary btn-small"
+                  data-i18n="settings.data.export_json"
+                >
+                  Exportar JSON
+                </button>
+                <button
+                  type="button"
+                  id="settings-export-csv"
+                  class="btn btn-secondary btn-small"
+                  data-i18n="settings.data.export_csv"
+                >
+                  Exportar CSV
+                </button>
+              </div>
+
+              <h3 class="section-spaced" data-i18n="settings.data.import">
+                Importar
+              </h3>
+              <p class="hint" data-i18n="settings.data.import_help"></p>
+              <div class="form-grid">
+                <div class="field">
+                  <label
+                    for="settings-import-file"
+                    data-i18n="settings.data.choose_file"
+                    >Elegir archivo JSON</label
+                  >
+                  <input
+                    type="file"
+                    id="settings-import-file"
+                    accept="application/json,.json"
+                  />
+                </div>
+                <div class="field">
+                  <label
+                    for="settings-import-mode"
+                    data-i18n="settings.data.mode"
+                    >Modo de importación</label
+                  >
+                  <select id="settings-import-mode">
+                    <option value="merge" data-i18n="settings.data.merge">
+                      Combinar (añadir)
+                    </option>
+                    <option value="replace" data-i18n="settings.data.replace">
+                      Reemplazar todo
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <label class="checkbox section-spaced-sm">
+                <input type="checkbox" id="settings-import-settings" />
+                <span data-i18n="settings.data.import_settings"
+                  >Importar también los ajustes</span
+                >
+              </label>
+              <div class="form-actions">
+                <button
+                  type="button"
+                  id="settings-import-btn"
+                  class="btn btn-primary btn-small"
+                  data-i18n="settings.data.import"
+                >
+                  Importar
+                </button>
+              </div>
+
+              <h3 class="section-spaced" data-i18n="settings.data.seed">
+                Cargar datos de ejemplo
+              </h3>
+              <p class="hint" data-i18n="settings.data.seed_help"></p>
+              <button
+                type="button"
+                id="settings-seed-btn"
+                class="btn btn-secondary btn-small"
+                data-i18n="settings.data.seed"
+              >
+                Cargar datos de ejemplo
+              </button>
+
+              <h3 class="section-spaced" data-i18n="settings.data.backups">
+                Copias de seguridad
+              </h3>
+              <div class="form-actions">
+                <button
+                  type="button"
+                  id="settings-backup-now"
+                  class="btn btn-secondary btn-small"
+                  data-i18n="settings.data.backup_now"
+                >
+                  Crear copia ahora
+                </button>
+              </div>
+              <div id="settings-backups" class="backup-list"></div>
+            </section>
+
+            <section class="settings-section" data-settings-panel="server" hidden>
+              <h3 data-i18n="settings.server.title">Servidor y copias</h3>
+
+              <div class="form-grid">
+                <div class="field">
+                  <label for="settings-host" data-i18n="settings.server.host"
+                    >Host</label
+                  >
+                  <input type="text" id="settings-host" />
+                </div>
+                <div class="field">
+                  <label for="settings-port" data-i18n="settings.server.port"
+                    >Puerto</label
+                  >
+                  <input type="number" id="settings-port" min="1" max="65535" />
+                </div>
+                <div class="field field-wide">
+                  <label for="settings-database" data-i18n="settings.server.database"
+                    >Ruta de la base de datos</label
+                  >
+                  <input type="text" id="settings-database" />
+                </div>
+                <div class="field field-wide">
+                  <label for="settings-backup-dir" data-i18n="settings.server.backup_dir"
+                    >Carpeta de copias</label
+                  >
+                  <input type="text" id="settings-backup-dir" />
+                </div>
+              </div>
+
+              <div class="check-list">
+                <label class="checkbox">
+                  <input type="checkbox" id="settings-backups-enabled" />
+                  <span data-i18n="settings.server.backups_enabled"
+                    >Copias automáticas</span
+                  >
+                </label>
+              </div>
+
+              <div class="form-grid">
+                <div class="field">
+                  <label
+                    for="settings-backup-frequency"
+                    data-i18n="settings.server.frequency"
+                    >Frecuencia (horas)</label
+                  >
+                  <input
+                    type="number"
+                    id="settings-backup-frequency"
+                    min="1"
+                    max="720"
+                  />
+                </div>
+                <div class="field">
+                  <label for="settings-backup-keep" data-i18n="settings.server.keep"
+                    >Copias a conservar</label
+                  >
+                  <input type="number" id="settings-backup-keep" min="1" max="200" />
+                </div>
+              </div>
+
+              <p class="hint" data-i18n="settings.server.restart_hint"></p>
+            </section>
+          </div>
+        </div>
+
+        <footer class="dialog-foot settings-foot">
+          <button
+            type="button"
+            id="settings-reset"
+            class="btn btn-danger-ghost btn-small"
+            data-i18n="settings.reset"
+          >
+            Restablecer ajustes
+          </button>
+          <span class="spacer"></span>
+          <button
+            type="button"
+            class="btn btn-ghost"
+            data-close-dialog
+            data-i18n="common.cancel"
+          >
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary" data-i18n="settings.save">
+            Guardar ajustes
+          </button>
+        </footer>
+      </form>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+    <div id="loading-overlay" class="loading-overlay">
+      <span class="spinner" aria-hidden="true"></span>
+      <span data-i18n="app.loading">Cargando agenda…</span>
+    </div>
+
+    <script type="module" src="/static/js/app.js"></script>
+  </body>
+</html>

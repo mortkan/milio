@@ -1,0 +1,264 @@
+{
+  "root": {
+    "_meta": {
+      "name": "Español"
+    },
+    "app": {
+      "subtitle": "Calendario y notas",
+      "context": "Calendario · {{view}}",
+      "loading": "Cargando agenda…"
+    },
+    "views": {
+      "month": "Mes",
+      "week": "Semana",
+      "day": "Día",
+      "board": "Tablero"
+    },
+    "nav": {
+      "previous": "Periodo anterior",
+      "next": "Periodo siguiente",
+      "today": "Hoy"
+    },
+    "common": {
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "close": "Cerrar",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "add": "Añadir",
+      "search": "Buscar",
+      "clear": "Limpiar",
+      "reset": "Restablecer",
+      "notas": "Notas",
+      "quick_note": "Captura rápida",
+      "today": "Ir a hoy",
+      "settings": "Abrir ajustes",
+      "messages": {
+        "note_saved": "Nota guardada",
+        "note_created": "Nota creada",
+        "note_deleted": "Nota eliminada",
+        "confirm_delete_note": "¿Estás seguro de que quieres eliminar esta nota?",
+        "move_failed": "No se pudo mover la nota",
+        "error_generic": "Error genérico"
+      }
+    },
+    "note": {
+      "new": "Nueva nota",
+      "edit": "Editar nota",
+      "untitled": "Sin título",
+      "no_category": "Sin categoría",
+      "no_priority": "Sin prioridad",
+      "no_color": "Sin color",
+      "preview": "Vista previa",
+      "preview_empty": "La vista previa aparecerá aquí.",
+      "series_hint": "Los cambios se aplican a toda la serie.",
+      "form_error": "El formulario tiene errores",
+      "validation": "Error de validación",
+      "confirm_delete_note": "¿Estás seguro de que quieres eliminar esta nota?",
+      "more": "y {count} más",
+      "week_number": "Semana {number}"
+    },
+    "day": {
+      "selected": "Día seleccionado",
+      "add": "Añadir nota",
+      "empty": "No hay notas para este día",
+      "quick_empty": "No hay notas rápidas"
+    },
+    "quick": {
+      "placeholder": "Captura rápida… (N)",
+      "target": "Fecha de destino",
+      "target_hint": "Opcional",
+      "save": "Guardar",
+      "assigned": "Nota asignada al {date}",
+      "saved": "Nota rápida guardada",
+      "deleted": "Nota rápida eliminada",
+      "assign_to": "Asignar a"
+    },
+    "search": {
+      "title": "Buscar y filtrar",
+      "hint": "Presiona / para focar",
+      "text": "Texto",
+      "category": "Categoría",
+      "all": "Todas",
+      "pending": "Pendientes",
+      "completed": "Completadas",
+      "date_from": "Fecha desde",
+      "date_to": "Fecha hasta",
+      "apply": "Buscar",
+      "clear": "Limpiar filtros",
+      "empty": "No se encontraron resultados"
+    },
+    "settings": {
+      "title": "Ajustes",
+      "reset": "Restablecer ajustes",
+      "confirm_reset": "¿Estás seguro de restablecer todos los ajustes a sus valores defaults?"
+    },
+    "board": {
+      "title": "Tablero",
+      "view_mode": "Modo",
+      "view_mode_status": "Por estado",
+      "view_mode_week": "Por semana",
+      "columns": {
+        "bandeja": "Bandeja",
+        "por-hacer": "Por hacer",
+        "en-curso": "En curso",
+        "hecho": "Hecho",
+        "sin-fecha": "Sin fecha"
+      },
+      "add_note": "Añadir nota",
+      "column_empty": "Vacío"
+    },
+    "dialog": "Diálogo",
+    "quick.date_optional": "Opcional",
+    "quick.date_hint": "Fecha objetivo opcional",
+    "quick.tray": "Tablero",
+    "aria.skip": "Saltar al calendario",
+    "calendar.more": "+{count} más",
+    "counts.results": "resultados",
+    "palette.title": "Paleta de comandos",
+    "palette.shortcut": "Ctrl+K",
+    "palette.close": "Cerrar paleta",
+    "common.all": "Todas",
+    "common.cancel": "Cancelar",
+    "common.delete": "Eliminar",
+    "common.download": "Descargar",
+    "common.edit": "Editar",
+    "common.loading": "Cargando",
+    "common.save": "Guardar",
+    "day.add": "Añadir",
+    "day.empty": "No hay notas para este día",
+    "day.quick_empty": "No hay notas rápidas",
+    "day.selected": "Día seleccionado",
+    "quick.assign_to": "Asignar a",
+    "quick.placeholder": "Captura rápida… (N)",
+    "search.empty": "No se encontraron resultados",
+    "board.title": "Tablero",
+    "board.columns.pendientes": "Pendientes",
+    "board.columns.en-progreso": "En progreso",
+    "board.columns.en-espera": "En espera",
+    "board.columns.terminadas": "Terminadas",
+    "board.columns.sin-fecha": "Sin fecha",
+    "note.form_error": "El formulario tiene errores",
+    "note.no_category": "Sin categoría",
+    "note.no_priority": "Sin prioridad",
+    "note.preview_empty": "La vista previa aparecerá aquí.",
+    "note.untitled": "Sin título",
+    "reminders.title": "Recordatorio",
+    "messages.backup_created": "Copia de seguridad creada",
+    "messages.close_unsaved": "Cerrar sin guardar",
+    "messages.confirm_delete_note": "¿Estás seguro de que quieres eliminar esta nota?",
+    "messages.confirm_delete_quick": "¿Estás seguro de que quieres eliminar esta nota rápida?",
+    "messages.confirm_replace": "Los cambios reemplazarán los existentes. ¿Continuar?",
+    "messages.confirm_reset": "¿Estás seguro de restablecer todos los ajustes a sus valores defaults?",
+    "messages.exported": "Exportado exitosamente",
+    "messages.file_error": "Error al leer el archivo",
+    "messages.labels_required": "Se requieren etiquetas",
+    "messages.move_failed": "No se pudo mover la nota",
+    "messages.note_deleted": "Nota eliminada",
+    "messages.quick_deleted": "Nota rápida eliminada",
+    "messages.quick_saved": "Nota rápida guardada",
+    "messages.restart_needed": "Es necesario reiniciar la aplicación",
+    "messages.settings_reset": "Ajustes restablecidos",
+    "messages.settings_saved": "Ajustes guardados",
+    "messages.unique_shortcuts": "Los atajos deben ser únicos",
+    "error.generic": "Error genérico",
+    "error.network": "Error de red",
+    "error.validation": "Error de validación",
+    "aria.delete_note": "Eliminar nota",
+    "aria.edit_note": "Editar nota",
+    "aria.toggle_complete": "Marcar como completada",
+    "calendar.no_notes": "No hay notas para este día",
+    "app.loading": "Cargando agenda",
+    "app.subtitle": "Calendario y notas",
+    "app.context": "Calendario · {{view}}",
+    "day.groups.events_short": "Eventos",
+    "day.groups.tasks_short": "Tareas",
+    "day.groups.notes_short": "Notas",
+    "board.add_note": "Añadir nota",
+    "board.columnas": "Columnas",
+    "common.category": "Categoría",
+    "common.color": "Color",
+    "common.completed": "Completada",
+    "common.content": "Contenido",
+    "common.date": "Fecha",
+    "common.priority": "Prioridad",
+    "common.recurrence": "Recurrencia",
+    "common.time": "Hora",
+    "common.title": "Título"
+  },
+  "board": {
+    "columns": {
+      "pendientes": "Pendientes",
+      "en-progreso": "En progreso",
+      "en-espera": "En espera",
+      "terminadas": "Terminadas",
+      "sin-fecha": "Sin fecha"
+    },
+    "columnas": "board.columnas",
+    "title": "Tablero"
+  },
+  "day": {
+    "add": "Añadir",
+    "empty": "No hay notas para este día",
+    "quick_empty": "No hay notas rápidas",
+    "selected": "Día seleccionado"
+  },
+  "quick": {
+    "assign_to": "Asignar a",
+    "placeholder": "Captura rápida… (N)"
+  },
+  "search": {
+    "empty": "No se encontraron resultados"
+  },
+  "common": {
+    "all": "Todas",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "download": "Descargar",
+    "edit": "Editar",
+    "loading": "Cargando",
+    "save": "Guardar"
+  },
+  "note": {
+    "form_error": "El formulario tiene errores",
+    "no_category": "Sin categoría",
+    "no_priority": "Sin prioridad",
+    "preview_empty": "La vista previa aparecerá aquí.",
+    "untitled": "Sin título"
+  },
+  "reminders": {
+    "title": "Recordatorio"
+  },
+  "messages": {
+    "backup_created": "Copia de seguridad creada",
+    "close_unsaved": "Cerrar sin guardar",
+    "confirm_delete_note": "¿Estás seguro de que quieres eliminar esta nota?",
+    "confirm_delete_quick": "¿Estás seguro de que quieres eliminar esta nota rápida?",
+    "confirm_replace": "Los cambios reemplazarán los existentes. ¿Continuar?",
+    "confirm_reset": "¿Estás seguro de restablecer todos los ajustes a sus valores defaults?",
+    "exported": "Exportado exitosamente",
+    "file_error": "Error al leer el archivo",
+    "labels_required": "Se requieren etiquetas",
+    "move_failed": "No se pudo mover la nota",
+    "note_deleted": "Nota eliminada",
+    "quick_deleted": "Nota rápida eliminada",
+    "quick_saved": "Nota rápida guardada",
+    "restart_needed": "Es necesario reiniciar la aplicación",
+    "settings_reset": "Ajustes restablecidos",
+    "settings_saved": "Ajustes guardados",
+    "unique_shortcuts": "Los atajos deben ser únicos"
+  },
+  "error": {
+    "generic": "Error genérico",
+    "network": "Error de red",
+    "validation": "Error de validación"
+  },
+  "aria": {
+    "delete_note": "Eliminar nota",
+    "edit_note": "Editar nota",
+    "toggle_complete": "Marcar como completada"
+  },
+  "calendar": {
+    "no_notes": "No hay notas para este día"
+  }
+}
