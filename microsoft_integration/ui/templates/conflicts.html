@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Milo — Conflictos Microsoft</title>
+  <link rel="stylesheet" href="/static/microsoft/microsoft.css"/>
+</head>
+<body>
+<div class="ms-app">
+  <header class="ms-header">
+    <div class="ms-header__brand">
+      <svg class="ms-header__logo" viewBox="0 0 32 32">
+        <rect x="1" y="1" width="14" height="14" fill="#f25022"/>
+        <rect x="17" y="1" width="14" height="14" fill="#7fba00"/>
+        <rect x="1" y="17" width="14" height="14" fill="#00a4ef"/>
+        <rect x="17" y="17" width="14" height="14" fill="#ffb900"/>
+      </svg>
+      <span>Microsoft 365</span>
+    </div>
+    <nav class="ms-nav">
+      <a href="/microsoft" class="ms-nav__link">Panel</a>
+      <a href="/microsoft/accounts" class="ms-nav__link">Cuentas</a>
+      <a href="/microsoft/sync" class="ms-nav__link">Sincronización</a>
+      <a href="/microsoft/conflicts" class="ms-nav__link ms-nav__link--active">Conflictos</a>
+    </nav>
+  </header>
+  <main class="ms-main">
+    <h2 class="ms-page-title">Conflictos de sincronización</h2>
+    <p class="ms-page-desc">Los conflictos ocurren cuando un elemento fue modificado en ambos lados desde la última sincronización.</p>
+
+    <div class="ms-card">
+      <div class="ms-card__header">
+        <h3>Conflictos pendientes</h3>
+        <span id="conflict-count" class="ms-badge">...</span>
+      </div>
+      <table class="ms-table" id="conflicts-table">
+        <thead>
+          <tr>
+            <th>Tipo</th>
+            <th>Título (Milo)</th>
+            <th>Últ. mod. Milo</th>
+            <th>Últ. mod. Microsoft</th>
+            <th>Acción</th>
+          </tr>
+        </thead>
+        <tbody id="conflicts-body">
+          <tr><td colspan="5" class="ms-table__empty">Cargando...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Resolve modal -->
+    <div id="resolve-modal" class="ms-modal" style="display:none">
+      <div class="ms-modal__content">
+        <h3>Resolver conflicto</h3>
+        <div id="resolve-details"></div>
+        <div class="ms-resolve-actions">
+          <button class="ms-btn ms-btn--primary" id="btn-keep-local">Conservar Milo</button>
+          <button class="ms-btn ms-btn--secondary" id="btn-keep-ms">Conservar Microsoft</button>
+          <button class="ms-btn ms-btn--ghost" id="btn-cancel-resolve">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script src="/static/microsoft/microsoft_api.js"></script>
+<script>
+  let currentConflictId = null;
+
+  async function loadConflicts() {
+    const res = await MsApi.getConflicts();
+    const tbody = document.getElementById('conflicts-body');
+    document.getElementById('conflict-count').textContent = res.length;
+    if (!res.length) {
+      tbody.innerHTML = '<tr><td colspan="5" class="ms-table__empty">Sin conflictos pendientes ✓</td></tr>';
+      return;
+    }
+    tbody.innerHTML = res.map(c => `
+      <tr>
+        <td>${c.entity_type}</td>
+        <td>${parseSnapshot(c.local_snapshot, 'title') || c.local_entity_id}</td>
+        <td>${fmt(c.local_modified_at)}</td>
+        <td>${fmt(c.remote_modified_at)}</td>
+        <td><button class="ms-btn ms-btn--sm ms-btn--ghost" onclick="openResolve(${c.id})">Resolver</button></td>
+      </tr>`).join('');
+  }
+
+  function parseSnapshot(json, key) {
+    try { return JSON.parse(json)[key]; } catch { return null; }
+  }
+
+  function fmt(dt) {
+    if (!dt) return '—';
+    return new Date(dt).toLocaleString('es-ES');
+  }
+
+  function openResolve(id) {
+    currentConflictId = id;
+    document.getElementById('resolve-modal').style.display = 'flex';
+  }
+
+  document.getElementById('btn-keep-local').onclick = async () => {
+    await MsApi.resolveConflict(currentConflictId, 'keep_local');
+    document.getElementById('resolve-modal').style.display = 'none';
+    loadConflicts();
+  };
+  document.getElementById('btn-keep-ms').onclick = async () => {
+    await MsApi.resolveConflict(currentConflictId, 'keep_microsoft');
+    document.getElementById('resolve-modal').style.display = 'none';
+    loadConflicts();
+  };
+  document.getElementById('btn-cancel-resolve').onclick = () => {
+    document.getElementById('resolve-modal').style.display = 'none';
+  };
+
+  loadConflicts();
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+# Microsoft 365 Integration — Docker Compose
+# Connects to the existing Milo MariaDB container.
+#
+# BEFORE RUNNING:
+#   1. Copy .env.microsoft.example to .env.microsoft and fill in values
+#   2. Check the network name with: docker network ls
+#      The Milo project uses: mistica-net
+#      Update the network name below if different.
+#   3. Apply the Microsoft schema:
+#      docker compose -f compose.microsoft.yml run --rm ms-integration python -m microsoft_integration.scripts.apply_microsoft_schema
+#
+# START:
+#   docker compose -f compose.microsoft.yml up -d
+
+services:
+  ms-integration:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: milo-ms-integration
+    ports:
+      - "${MICROSOFT_SERVICE_PORT:-8010}:8010"
+    env_file:
+      - .env.microsoft
+    environment:
+      TZ: "${MICROSOFT_TIMEZONE:-Europe/Madrid}"
+    volumes:
+      - ./logs:/logs
+    networks:
+      - mistica-net
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import httpx; httpx.get('http://localhost:8010/api/microsoft/health').raise_for_status()"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+
+# NOTE: Do NOT add a mariadb service here — use the existing Milo MariaDB.
+# The network below must match the network used by the Milo docker-compose.yml.
+# Check with: docker network ls | grep mistica
+# If using a different name, change 'mistica-net' below and in the service above.
+
+networks:
+  mistica-net:
+    external: true

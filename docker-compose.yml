@@ -1,0 +1,27 @@
+services:
+  agenda:
+    build: .
+    container_name: milo_docker
+    ports:
+      - "8000:8000"
+    environment:
+      AGENDA_HOST: "0.0.0.0"
+      AGENDA_PORT: "8000"
+      AGENDA_BACKUP_DIR: "/app/data/backups"
+      TZ: "Europe/Madrid"
+      # Base de datos MariaDB
+      DB_TYPE: "mariadb"
+      DB_HOST: "mariadb_docker"
+      DB_PORT: "3306"
+      DB_NAME: "milo"
+      DB_USER: "milo_app"
+      DB_PASSWORD: "${DB_PASSWORD:-MiloApp2026!}"
+    volumes:
+      - ./data:/app/data
+    networks:
+      - mistica-net
+    restart: unless-stopped
+
+networks:
+  mistica-net:
+    external: true

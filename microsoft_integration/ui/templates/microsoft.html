@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Milo — Microsoft 365</title>
+  <link rel="stylesheet" href="/static/microsoft/microsoft.css"/>
+</head>
+<body>
+<div class="ms-app">
+
+  <header class="ms-header">
+    <div class="ms-header__brand">
+      <svg class="ms-header__logo" viewBox="0 0 32 32" aria-hidden="true">
+        <rect x="1"  y="1"  width="14" height="14" fill="#f25022"/>
+        <rect x="17" y="1"  width="14" height="14" fill="#7fba00"/>
+        <rect x="1"  y="17" width="14" height="14" fill="#00a4ef"/>
+        <rect x="17" y="17" width="14" height="14" fill="#ffb900"/>
+      </svg>
+      <span>Microsoft 365</span>
+    </div>
+    <nav class="ms-nav">
+      <a href="/microsoft" class="ms-nav__link ms-nav__link--active">Panel</a>
+      <a href="/microsoft/accounts" class="ms-nav__link">Cuentas</a>
+      <a href="/microsoft/sync" class="ms-nav__link">Sincronización</a>
+      <a href="/microsoft/conflicts" class="ms-nav__link">Conflictos <span id="conflict-badge" class="ms-badge" style="display:none"></span></a>
+      <a href="/docs" class="ms-nav__link ms-nav__link--api" target="_blank">API</a>
+    </nav>
+  </header>
+
+  <main class="ms-main">
+
+    <!-- Status banner -->
+    <div id="status-banner" class="ms-banner" style="display:none"></div>
+
+    <!-- No account state -->
+    <section id="no-account" class="ms-card ms-card--centered" style="display:none">
+      <svg class="ms-icon ms-icon--lg" viewBox="0 0 32 32">
+        <rect x="1" y="1" width="14" height="14" fill="#f25022"/>
+        <rect x="17" y="1" width="14" height="14" fill="#7fba00"/>
+        <rect x="1" y="17" width="14" height="14" fill="#00a4ef"/>
+        <rect x="17" y="17" width="14" height="14" fill="#ffb900"/>
+      </svg>
+      <h2>Conectar cuenta Microsoft</h2>
+      <p>Sincroniza Milo con Outlook Calendar y Microsoft To Do</p>
+      <button class="ms-btn ms-btn--primary" id="btn-connect">Conectar cuenta</button>
+    </section>
+
+    <!-- Device code flow modal -->
+    <div id="device-flow-modal" class="ms-modal" style="display:none">
+      <div class="ms-modal__content">
+        <h3>Autenticación Microsoft</h3>
+        <p>Abre el siguiente enlace en tu navegador e introduce el código:</p>
+        <div class="ms-code-box">
+          <p class="ms-code-url"><a id="device-flow-url" href="#" target="_blank"></a></p>
+          <div class="ms-code-value" id="device-flow-code">—</div>
+        </div>
+        <p class="ms-code-status" id="device-flow-status">Esperando autorización...</p>
+        <div class="ms-spinner" id="device-flow-spinner"></div>
+        <button class="ms-btn ms-btn--secondary" id="btn-cancel-flow">Cancelar</button>
+      </div>
+    </div>
+
+    <!-- Connected account dashboard -->
+    <section id="dashboard" style="display:none">
+
+      <div class="ms-grid ms-grid--2">
+        <!-- Account card -->
+        <div class="ms-card">
+          <div class="ms-card__header">
+            <h3>Cuenta</h3>
+            <span class="ms-status ms-status--ok" id="account-status">Conectada</span>
+          </div>
+          <p id="account-name" class="ms-card__value">—</p>
+          <p id="account-email" class="ms-card__sub">—</p>
+          <div class="ms-card__actions">
+            <button class="ms-btn ms-btn--ghost ms-btn--sm" id="btn-test-connection">Probar conexión</button>
+            <button class="ms-btn ms-btn--danger ms-btn--sm" id="btn-disconnect">Desconectar</button>
+          </div>
+        </div>
+
+        <!-- Scheduler card -->
+        <div class="ms-card">
+          <div class="ms-card__header">
+            <h3>Sincronización automática</h3>
+            <span class="ms-status" id="scheduler-status">—</span>
+          </div>
+          <p class="ms-card__sub">Intervalo: <span id="sync-interval">—</span></p>
+          <div class="ms-card__actions">
+            <button class="ms-btn ms-btn--primary" id="btn-sync-now">⟳ Sincronizar ahora</button>
+            <button class="ms-btn ms-btn--ghost ms-btn--sm" id="btn-sync-preview">Vista previa</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sync result -->
+      <div id="sync-result" class="ms-card ms-card--result" style="display:none">
+        <h4>Resultado de sincronización</h4>
+        <div class="ms-result-grid" id="sync-result-body"></div>
+      </div>
+
+      <div class="ms-grid ms-grid--2">
+        <!-- Calendar card -->
+        <div class="ms-card">
+          <div class="ms-card__header">
+            <h3>Outlook Calendar</h3>
+            <span class="ms-status" id="cal-status">—</span>
+          </div>
+          <p class="ms-card__sub">Calendario: <strong id="cal-name">—</strong></p>
+          <p class="ms-card__sub">Última sincronización: <span id="cal-last-sync">—</span></p>
+          <div class="ms-card__actions">
+            <a href="/microsoft/sync#calendar" class="ms-btn ms-btn--ghost ms-btn--sm">Configurar</a>
+          </div>
+        </div>
+
+        <!-- To Do card -->
+        <div class="ms-card">
+          <div class="ms-card__header">
+            <h3>Microsoft To Do</h3>
+            <span class="ms-status" id="todo-status">—</span>
+          </div>
+          <p class="ms-card__sub">Lista: <strong id="todo-name">—</strong></p>
+          <p class="ms-card__sub">Última sincronización: <span id="todo-last-sync">—</span></p>
+          <div class="ms-card__actions">
+            <a href="/microsoft/sync#todo" class="ms-btn ms-btn--ghost ms-btn--sm">Configurar</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent sync history -->
+      <div class="ms-card">
+        <div class="ms-card__header">
+          <h3>Historial reciente</h3>
+          <a href="/microsoft/sync" class="ms-link">Ver todo →</a>
+        </div>
+        <table class="ms-table" id="history-table">
+          <thead>
+            <tr><th>Fecha</th><th>Estado</th><th>Calendario</th><th>Tareas</th><th>Conflictos</th></tr>
+          </thead>
+          <tbody id="history-body">
+            <tr><td colspan="5" class="ms-table__empty">Cargando...</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+
+  </main>
+</div>
+
+<script src="/static/microsoft/microsoft_api.js"></script>
+<script src="/static/microsoft/microsoft.js"></script>
+</body>
+</html>

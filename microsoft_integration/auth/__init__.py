@@ -1,0 +1,1 @@
+"""Microsoft authentication sub-package."""

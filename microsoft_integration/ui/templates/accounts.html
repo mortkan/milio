@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Milo — Cuentas Microsoft</title>
+  <link rel="stylesheet" href="/static/microsoft/microsoft.css"/>
+</head>
+<body>
+<div class="ms-app">
+  <header class="ms-header">
+    <div class="ms-header__brand">
+      <svg class="ms-header__logo" viewBox="0 0 32 32">
+        <rect x="1" y="1" width="14" height="14" fill="#f25022"/>
+        <rect x="17" y="1" width="14" height="14" fill="#7fba00"/>
+        <rect x="1" y="17" width="14" height="14" fill="#00a4ef"/>
+        <rect x="17" y="17" width="14" height="14" fill="#ffb900"/>
+      </svg>
+      <span>Microsoft 365</span>
+    </div>
+    <nav class="ms-nav">
+      <a href="/microsoft" class="ms-nav__link">Panel</a>
+      <a href="/microsoft/accounts" class="ms-nav__link ms-nav__link--active">Cuentas</a>
+      <a href="/microsoft/sync" class="ms-nav__link">Sincronización</a>
+      <a href="/microsoft/conflicts" class="ms-nav__link">Conflictos</a>
+    </nav>
+  </header>
+  <main class="ms-main">
+    <div class="ms-page-header">
+      <h2 class="ms-page-title">Cuentas conectadas</h2>
+      <button class="ms-btn ms-btn--primary" id="btn-add-account">+ Añadir cuenta</button>
+    </div>
+    <div id="accounts-list"></div>
+  </main>
+</div>
+<script src="/static/microsoft/microsoft_api.js"></script>
+<script>
+  async function load() {
+    const accounts = await MsApi.getAccounts();
+    const el = document.getElementById('accounts-list');
+    if (!accounts.length) {
+      el.innerHTML = '<div class="ms-card ms-card--centered"><p>No hay cuentas conectadas.</p></div>';
+      return;
+    }
+    el.innerHTML = accounts.map(a => `
+      <div class="ms-card">
+        <div class="ms-card__header">
+          <h3>${a.display_name}</h3>
+          <span class="ms-status ${a.needs_reauthentication ? 'ms-status--warn' : a.enabled ? 'ms-status--ok' : 'ms-status--off'}">
+            ${a.needs_reauthentication ? 'Reautorización requerida' : a.enabled ? 'Activa' : 'Desconectada'}
+          </span>
+        </div>
+        <p class="ms-card__sub">${a.email}</p>
+        <p class="ms-card__sub">${a.account_type} · ID: ${a.microsoft_user_id.substring(0,8)}…</p>
+        <div class="ms-card__actions">
+          ${a.needs_reauthentication ? `<button onclick="startFlow()" class="ms-btn ms-btn--primary ms-btn--sm">Reautorizar</button>` : ''}
+          <button onclick="testConnection(${a.id})" class="ms-btn ms-btn--ghost ms-btn--sm">Probar conexión</button>
+          <button onclick="disconnect(${a.id})" class="ms-btn ms-btn--danger ms-btn--sm">Desconectar</button>
+        </div>
+      </div>`).join('');
+  }
+
+  async function testConnection(id) {
+    const res = await MsApi.testConnection(id);
+    alert(res.status === 'ok' ? `✓ Conectado como ${res.display_name}` : `✗ Error: ${res.detail}`);
+  }
+
+  async function disconnect(id) {
+    if (!confirm('¿Desconectar esta cuenta? Los mapeos de sincronización se conservarán.')) return;
+    await MsApi.disconnectAccount(id);
+    load();
+  }
+
+  document.getElementById('btn-add-account').onclick = () => {
+    window.location.href = '/microsoft';
+  };
+
+  load();
+</script>
+</body>
+</html>

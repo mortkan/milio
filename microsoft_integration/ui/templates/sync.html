@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Milo — Configuración de sincronización</title>
+  <link rel="stylesheet" href="/static/microsoft/microsoft.css"/>
+</head>
+<body>
+<div class="ms-app">
+  <header class="ms-header">
+    <div class="ms-header__brand">
+      <svg class="ms-header__logo" viewBox="0 0 32 32">
+        <rect x="1" y="1" width="14" height="14" fill="#f25022"/>
+        <rect x="17" y="1" width="14" height="14" fill="#7fba00"/>
+        <rect x="1" y="17" width="14" height="14" fill="#00a4ef"/>
+        <rect x="17" y="17" width="14" height="14" fill="#ffb900"/>
+      </svg>
+      <span>Microsoft 365</span>
+    </div>
+    <nav class="ms-nav">
+      <a href="/microsoft" class="ms-nav__link">Panel</a>
+      <a href="/microsoft/accounts" class="ms-nav__link">Cuentas</a>
+      <a href="/microsoft/sync" class="ms-nav__link ms-nav__link--active">Sincronización</a>
+      <a href="/microsoft/conflicts" class="ms-nav__link">Conflictos</a>
+    </nav>
+  </header>
+  <main class="ms-main">
+    <h2 class="ms-page-title">Configuración de sincronización</h2>
+    <p class="ms-page-desc">Selecciona qué calendario y lista To Do sincronizar con Milo.</p>
+
+    <div id="sync-config-form"></div>
+
+    <div class="ms-card" id="history-section">
+      <div class="ms-card__header">
+        <h3>Historial completo</h3>
+      </div>
+      <table class="ms-table">
+        <thead><tr><th>Fecha</th><th>Estado</th><th>Tipo</th><th>Creados</th><th>Actualizados</th><th>Errores</th></tr></thead>
+        <tbody id="full-history-body"><tr><td colspan="6" class="ms-table__empty">Cargando...</td></tr></tbody>
+      </table>
+    </div>
+  </main>
+</div>
+<script src="/static/microsoft/microsoft_api.js"></script>
+<script>
+async function load() {
+  const accounts = await MsApi.getAccounts();
+  const form = document.getElementById('sync-config-form');
+  if (!accounts.length) {
+    form.innerHTML = '<div class="ms-card"><p>No hay cuentas conectadas.</p></div>';
+    return;
+  }
+  const account = accounts[0];
+  const config = await MsApi.getAccountConfig(account.id);
+  const calendars = await MsApi.listCalendars(account.id).catch(() => []);
+  const lists = await MsApi.listTodoLists(account.id).catch(() => []);
+
+  form.innerHTML = `
+    <div class="ms-card">
+      <h3>Outlook Calendar</h3>
+      <label>Calendario:
+        <select id="cal-select">
+          ${calendars.map(c => `<option value="${c.id}" ${c.id === config.calendar_id ? 'selected' : ''}>${c.name}</option>`).join('')}
+        </select>
+      </label>
+      <label>Dirección:
+        <select id="cal-direction">
+          <option value="bidirectional" ${config.calendar_sync_direction === 'bidirectional' ? 'selected' : ''}>Bidireccional</option>
+          <option value="milo_to_microsoft" ${config.calendar_sync_direction === 'milo_to_microsoft' ? 'selected' : ''}>Solo Milo → Microsoft</option>
+          <option value="microsoft_to_milo" ${config.calendar_sync_direction === 'microsoft_to_milo' ? 'selected' : ''}>Solo Microsoft → Milo</option>
+        </select>
+      </label>
+      <label><input type="checkbox" id="cal-enabled" ${config.calendar_sync_enabled ? 'checked' : ''}/> Activar sincronización de calendario</label>
+    </div>
+    <div class="ms-card">
+      <h3>Microsoft To Do</h3>
+      <label>Lista:
+        <select id="todo-select">
+          ${lists.map(l => `<option value="${l.id}" ${l.id === config.todo_list_id ? 'selected' : ''}>${l.display_name}</option>`).join('')}
+        </select>
+      </label>
+      <label>Dirección:
+        <select id="todo-direction">
+          <option value="bidirectional" ${config.todo_sync_direction === 'bidirectional' ? 'selected' : ''}>Bidireccional</option>
+          <option value="milo_to_microsoft" ${config.todo_sync_direction === 'milo_to_microsoft' ? 'selected' : ''}>Solo Milo → Microsoft</option>
+          <option value="microsoft_to_milo" ${config.todo_sync_direction === 'microsoft_to_milo' ? 'selected' : ''}>Solo Microsoft → Milo</option>
+        </select>
+      </label>
+      <label><input type="checkbox" id="todo-enabled" ${config.todo_sync_enabled ? 'checked' : ''}/> Activar sincronización de tareas</label>
+    </div>
+    <div class="ms-card__actions">
+      <button class="ms-btn ms-btn--primary" onclick="save(${account.id})">Guardar configuración</button>
+    </div>`;
+
+  loadHistory(account.id);
+}
+
+async function save(accountId) {
+  const payload = {
+    calendar_id: document.getElementById('cal-select').value,
+    calendar_sync_direction: document.getElementById('cal-direction').value,
+    calendar_sync_enabled: document.getElementById('cal-enabled').checked,
+    todo_list_id: document.getElementById('todo-select').value,
+    todo_sync_direction: document.getElementById('todo-direction').value,
+    todo_sync_enabled: document.getElementById('todo-enabled').checked,
+  };
+  await MsApi.updateAccountConfig(accountId, payload);
+  alert('✓ Configuración guardada');
+}
+
+async function loadHistory(accountId) {
+  const runs = await MsApi.getSyncHistory(accountId);
+  const tbody = document.getElementById('full-history-body');
+  if (!runs.length) { tbody.innerHTML = '<tr><td colspan="6" class="ms-table__empty">Sin historial</td></tr>'; return; }
+  tbody.innerHTML = runs.map(r => `
+    <tr>
+      <td>${new Date(r.started_at).toLocaleString('es-ES')}</td>
+      <td><span class="ms-status ms-status--${r.status === 'success' ? 'ok' : r.status === 'running' ? 'warn' : 'err'}">${r.status}</span></td>
+      <td>${r.is_full_sync ? 'Completa' : 'Incremental'}</td>
+      <td>${r.calendar_created + r.tasks_created}</td>
+      <td>${r.calendar_updated + r.tasks_updated}</td>
+      <td>${r.errors_count}</td>
+    </tr>`).join('');
+}
+
+load();
+</script>
+</body>
+</html>

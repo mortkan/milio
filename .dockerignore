@@ -1,0 +1,13 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.git/
+.gitignore
+data/*.db
+data/*.db-*
+data/settings.json
+data/backup_state.json
+data/backups/*
+tests/
+README.md
